@@ -45,8 +45,26 @@ struct Student
 //2.2 struct Student s1={...}
 //2.3 在定义结构体变量的同时顺便赋值
 
+struct Teacher
+{
+    int id;
+    string name;
+    int age;
+    Student stu;//辅导的学生
+};
 
+//值传递
+void printStu1(Student s1) {
+    cout << "information in print function " << s1.name << " "
+        << s1.age << " " << s1.score << endl;
+}
 
+//地址传递：需要使用指针接受一个地址
+void printStu2(const Student* s1) {//防止修改的误操作
+    //s1->age = 100;
+    cout << "information in print function2 " << s1->name << " "
+        << s1->age << " " << s1->score << endl;
+}
 
 int main()
 {
@@ -190,6 +208,75 @@ int main()
     s3.age = 18;
     s3.score = 60;
     cout << s3.name << " " << s3.age << " " << s3.score << endl;
+
+    /*
+    结构体数组
+    */
+    //1.定义
+
+    //2.创建数组
+    Student stuArray[3] = {
+        {"zhangsan",18,100},
+        {"lisi",19,90},
+        {"wangwu",20,80}
+    };
+    stuArray[2].name = "zhaoliu";
+
+    //遍历
+    for (int i = 0; i < 3; i++) {
+        cout << "name " << stuArray[i].name << " " << "age " << stuArray[i].age;
+        cout << " " << "score " << stuArray[i].score << endl;
+    }
+
+    /*
+    结构体指针
+    ->
+    */
+    //1.通过指针指向结构体变量
+    Student* p9 = &s1; 
+
+    //2.通过指针访问结构体变量中的数据
+    cout << p9->name << " " << p9->age << " " << p9->score << endl;
+
+
+    /*
+    结构体嵌套结构体
+    */
+    //创建老师
+    Teacher t;
+    t.age = 50;
+    t.id = 10000;
+    t.name = "laowang";
+    t.stu.name = "xiaowang";
+    t.stu.age = 19;
+    t.stu.score = 87;
+
+    cout << t.name << " " << t.age << " " << t.stu.name << endl;
+
+
+    /*
+    结构体做函数参数
+    1.值传递
+        不改变实参
+    2.地址传递
+        改变实参
+    
+    函数打印学生的所有信息
+    */
+    cout << "information in main function " << s1.name << " "
+        << s1.age << " " << s1.score << endl;
+    printStu1(s1);
+    printStu2(&s1);
+    cout << "information in main function " << s1.name << " "
+        << s1.age << " " << s1.score << endl;
+
+    /*
+    结构体的const
+    */
+    printStu1(s2);//使用值传递会在函数中复制一个新对副本
+    printStu2(&s2);//使用地址传递可以减少内存空间的消耗，而且不会产生新对副本
+    //地址传递会导致函数体内修改值，影响了原有的数据，在形参前加const
+
 
 
 
